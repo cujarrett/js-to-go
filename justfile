@@ -37,11 +37,13 @@ reset module:
         echo "reset $f"
     done
 
-# Restore every module. Wipes all your answers.
+# Restore the whole repo to the stubs commit - every module, README and test file,
+# exactly as it was before any answer was written. Leaves this justfile alone, so the
+# reset/solution/diff tooling survives the reset that just used it.
 reset-all:
     #!/usr/bin/env bash
     set -euo pipefail
-    for f in $(git ls-tree -r --name-only {{STUBS}} | grep '^0[0-9]_' | grep -v _test.go | grep '\.go$'); do
+    for f in $(git ls-tree -r --name-only {{STUBS}} | grep -v '^justfile$'); do
         git show {{STUBS}}:"$f" > "$f"
     done
-    echo "reset all six modules"
+    echo "reset to the stubs commit ({{STUBS}})"
