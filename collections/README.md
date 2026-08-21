@@ -33,5 +33,5 @@ JavaScript never does this because array elements are references. Go elements ar
 ## Run
 
 ```sh
-go test ./02_collections/
+go test ./collections/
 ```

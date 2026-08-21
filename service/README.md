@@ -1,6 +1,6 @@
-# 06 A real service
+# 09 A real service
 
-Everything so far, in the shape every Go service in this workspace uses. Standard library only,
+Everything so far - values, collections, errors, types, both JSON encoders, structured logging and context - in the shape every Go service in this workspace uses. Standard library only,
 no framework - `net/http` is the framework.
 
 ```js
@@ -31,7 +31,7 @@ server, no sleeping. Fast enough that you write more tests than you expected to.
 ## Run
 
 ```sh
-go test ./06_service/
+go test ./service/
 ```
 
 Once it is green, add `POST /servers` yourself: decode JSON from `r.Body`, return 201, and 400 on

@@ -64,5 +64,5 @@ next to the type that satisfies them. `client.Object` in controller-runtime is e
 ## Run
 
 ```sh
-go test ./04_types/
+go test ./types/
 ```

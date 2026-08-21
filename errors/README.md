@@ -42,7 +42,7 @@ if err != nil { return err }                // then the general one
 ## Run
 
 ```sh
-go test ./03_errors/
+go test ./errors/
 ```
 
 Then change one `%w` to `%v` and watch a test fail. That is the whole lesson.

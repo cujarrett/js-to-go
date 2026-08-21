@@ -39,7 +39,7 @@ answer and had to stay visible.
 ## Run
 
 ```sh
-go test ./05_json/
+go test ./json/
 ```
 
 Then rename a tag and watch a test fail. That is how a CRD field gets renamed.
