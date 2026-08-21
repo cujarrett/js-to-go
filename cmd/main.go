@@ -12,7 +12,7 @@ import (
 	"os/signal"
 	"time"
 
-	"learning-go/service"
+	"js-to-go/service"
 )
 
 // memStore is the one dependency service.API needs. A real binary would back

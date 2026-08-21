@@ -1,6 +1,6 @@
-# learning-go
+# js-to-go
 
-A small set of hacks to learn Go.
+Guided Go modules for a JS developer, one topic per package.
 
 ## Rules
 
