@@ -63,15 +63,3 @@ func TestUnselected(t *testing.T) {
 		t.Errorf("Unselected() = %v, want %v", got, want)
 	}
 }
-
-func TestAddServerReturnsTheGrownSlice(t *testing.T) {
-	servers := inventory()
-	grown := AddServer(servers, Server{Name: "web-4", Slot: "demo1"})
-
-	if len(grown) != len(servers)+1 {
-		t.Errorf("len(grown) = %d, want %d", len(grown), len(servers)+1)
-	}
-	// servers is still length 3 here, whatever AddServer does - append cannot resize
-	// the caller's own variable, only the caller reassigning the return value can.
-	// Not asserted: true even of a broken AddServer, so it can never be the red test.
-}
