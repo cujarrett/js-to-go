@@ -12,16 +12,16 @@ Start at `values`. Work down.
 
 | Module | Idea |
 |---|---|
-| [values](./values) | pointers, copies, nil |
-| [collections](./collections) | slices, maps, sets |
-| [errors](./errors) | errors as values |
-| [types](./types) | methods, receivers, interfaces |
-| [json](./json) | struct tags, encoding |
-| [jsonv2](./jsonv2) | a real stdlib package, still experimental |
-| [slog](./slog) | structured logging |
-| [context](./context) | cancellation, deadlines, request values |
-| [service](./service) | an HTTP API, stdlib only |
-| [cmd](./cmd) | wiring a binary, graceful shutdown |
+| [values](./values/README.md) | pointers, copies, nil |
+| [collections](./collections/README.md) | slices, maps, sets |
+| [errors](./errors/README.md) | errors as values |
+| [types](./types/README.md) | methods, receivers, interfaces |
+| [json](./json/README.md) | struct tags, encoding |
+| [jsonv2](./jsonv2/README.md) | a real stdlib package, still experimental |
+| [slog](./slog/README.md) | structured logging |
+| [context](./context/README.md) | cancellation, deadlines, request values |
+| [service](./service/README.md) | an HTTP API, stdlib only |
+| [cmd](./cmd/README.md) | wiring a binary, graceful shutdown |
 
 ## Running
 
