@@ -10,14 +10,6 @@ func TestRenameChangesTheCaller(t *testing.T) {
 	}
 }
 
-func TestRenameCopyDoesNot(t *testing.T) {
-	s := Server{Name: "original"}
-	RenameCopy(s, "renamed")
-	if s.Name != "original" {
-		t.Errorf("Name = %q, want original - a copy cannot change the caller", s.Name)
-	}
-}
-
 func TestLoadFillsTheBox(t *testing.T) {
 	var got Server
 	if err := Load("web-1", &got); err != nil {

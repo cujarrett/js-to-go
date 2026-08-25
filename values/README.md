@@ -72,4 +72,4 @@ Reading `*s.Note` when it is nil panics. Check first.
 go test ./values/
 ```
 
-Make all four pass. Then delete an `&` and read the compiler error.
+Make every test pass. Then delete an `&` and read the compiler error.
