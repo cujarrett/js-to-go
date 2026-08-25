@@ -28,6 +28,18 @@ func TestLoadFillsTheBox(t *testing.T) {
 	}
 }
 
+func TestSetFirstReturnsTheChangedArray(t *testing.T) {
+	ids := [3]string{"a", "b", "c"}
+	got := SetFirst(ids, "z")
+
+	if got != [3]string{"z", "b", "c"} {
+		t.Errorf("got = %v, want [z b c]", got)
+	}
+	// ids itself is still {a, b, c} here - an array argument is a full copy, so
+	// nothing SetFirst does could reach the caller's own variable. Not asserted:
+	// true regardless of what SetFirst does, so it can never be the red test.
+}
+
 func TestNoteOr(t *testing.T) {
 	note := "scheduled reboot"
 	tests := []struct {

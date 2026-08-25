@@ -30,3 +30,12 @@ func NoteOr(s Server, fallback string) string {
 	// TODO
 	return ""
 }
+
+// SetFirst sets index 0 of ids and returns the changed array. An array is data,
+// copied whole when passed - the same as Server above, with no address inside it
+// for a change to travel back through. That is why this returns, like RenameCopy
+// would have to, rather than mutating in place.
+func SetFirst(ids [3]string, id string) [3]string {
+	// TODO
+	return ids
+}

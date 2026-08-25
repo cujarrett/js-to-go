@@ -47,6 +47,9 @@ srv2.Name                     // old
 read a field, because Go dereferences for you: `s.Name` works whether `s` is a `Server` or a
 `*Server`.
 
+Arrays work the same as `Server` - `[3]string` is data, not an address. `SetFirst` proves it: it
+returns the changed array, because there is nothing else it could do.
+
 ## nil
 
 A pointer can be nil, which is how an API says "not set". That is different from `""`.

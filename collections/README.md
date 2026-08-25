@@ -30,6 +30,9 @@ for i := range servers {
 
 JavaScript never does this because array elements are references. Go elements are values.
 
+The `append` row above is the same idea one level up: it returns a new slice rather than growing
+the one you handed it. `AddServer` proves it - the caller only sees the change by reassigning.
+
 ## Run
 
 ```sh
