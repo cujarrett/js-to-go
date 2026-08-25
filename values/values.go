@@ -12,11 +12,8 @@ func Rename(s *Server, name string) {
 	// TODO
 }
 
-// RenameCopy takes a Server by value. Set the name here too - there is no test
-// checking the caller stays unaffected, because nothing you write here could ever
-// make that assertion fail. A Server has no address inside it, so a copy of one
-// is fully disconnected the moment it is passed; this function has no way to
-// reach back out, whatever its body says.
+// RenameCopy takes a Server by value. Set the name here too - a copy has no
+// address back to the original, so nothing this function does can reach the caller.
 func RenameCopy(s Server, name string) {
 	// TODO
 }
