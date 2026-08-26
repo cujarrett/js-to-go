@@ -43,8 +43,10 @@ func TestDescribeWrapsWithContext(t *testing.T) {
 func TestRequireCarriesTheKey(t *testing.T) {
 	err := store().Require("demo9")
 
-	var missing *MissingKeyError
-	if !stderrors.As(err, &missing) {
+	// errors.AsType (Go 1.26+) replaces the three-line var-and-As pattern with one
+	// call - same tree walk underneath, the type parameter says what to look for.
+	missing, ok := stderrors.AsType[*MissingKeyError](err)
+	if !ok {
 		t.Fatalf("err = %v, want a *MissingKeyError", err)
 	}
 	if missing.Key != "demo9" {

@@ -50,6 +50,19 @@ read a field, because Go dereferences for you: `s.Name` works whether `s` is a `
 Arrays work the same as `Server` - `[3]string` is data, not an address. `SetFirst` proves it: it
 returns the changed array, because there is nothing else it could do.
 
+`&srv` is the only way to get a pointer to a variable you already have. Go 1.26 added a second way
+for a value you don't have a variable for yet: `new(5)` returns a `*int` pointing at a fresh `5`.
+It is not `&` in disguise, though - `new(x)` makes a **copy** of `x` and hands back a pointer to
+that copy, the same as passing `x` to any other function. Mutate through the pointer, and the
+original `x` does not change:
+
+```go
+x := 5
+p := new(x)
+*p = 99
+x   // still 5 - p points at a copy, not at x
+```
+
 ## nil
 
 A pointer can be nil, which is how an API says "not set". That is different from `""`.

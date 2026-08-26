@@ -11,6 +11,9 @@ Slices are arrays. Maps are plain objects. The differences are worth knowing.
 | `m[k] ?? 0` | `m[k]` - a missing key already gives the zero value |
 | `k in m` | `v, ok := m[k]` |
 | `new Set()` | `map[string]bool` |
+| `xs.includes(x)` | `slices.Contains(xs, x)` - stdlib since Go 1.21, no loop to write |
+| `Math.min(a, b)` | `min(a, b)` - a builtin, not a package, since Go 1.21 |
+| `a \|\| b \|\| c` | `cmp.Or(a, b, c)` - first *non-zero* value, not first truthy |
 
 ## The one that bites
 
