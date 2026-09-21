@@ -42,4 +42,4 @@ answer and had to stay visible.
 go test ./json/
 ```
 
-Then rename a tag and watch a test fail. That is how a CRD field gets renamed.
+Then rename a tag and watch a test fail. Renaming a CRD field is the same operation.

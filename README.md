@@ -38,4 +38,4 @@ just solution values  # print the reference answer outright
 ```
 
 Both read the [`solutions`](https://github.com/cujarrett/js-to-go/tree/solutions) branch without
-touching your working tree. Try the test failure first - it's usually enough.
+touching your working tree. Try the test failure first. It's usually enough.

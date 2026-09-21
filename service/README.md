@@ -1,7 +1,8 @@
 # 09 A real service
 
-Everything so far - values, collections, errors, types, both JSON encoders, structured logging and context - in the shape every Go service in this workspace uses. Standard library only,
-no framework - `net/http` is the framework.
+Everything so far (values, collections, errors, types, both JSON encoders, structured logging and
+context) in the layout every Go service in this workspace uses. Standard library only: routing,
+handlers and the server all come from `net/http`.
 
 ```js
 // Express
@@ -26,7 +27,7 @@ mocking library. This is the Go habit: **accept interfaces, return structs.**
 ## httptest
 
 `httptest.NewRequest` and `httptest.NewRecorder` run a handler directly, in-process. No port, no
-server, no sleeping. Fast enough that you write more tests than you expected to.
+server, no sleeping.
 
 ## Run
 

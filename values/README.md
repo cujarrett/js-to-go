@@ -18,11 +18,10 @@ func Rename(s *Server, name string) {
 }
 ```
 
-`*Server` in a parameter list means "a pointer to a Server" - the address of one, rather than a
+`*Server` in a parameter list means "a pointer to a Server", the address of one rather than a
 Server itself. It is how you ask for what JS handed you for free above.
 
-Go's second option has no JS equivalent, and that is the module: you can ask for a copy instead,
-and JS cannot.
+Go's second option has no JS equivalent. You can ask for a copy instead.
 
 ```go
 // Go: no pointer, so a copy
@@ -47,20 +46,19 @@ srv2.Name                     // old
 read a field, because Go dereferences for you: `s.Name` works whether `s` is a `Server` or a
 `*Server`.
 
-Arrays work the same as `Server` - `[3]string` is data, not an address. `SetFirst` proves it: it
+Arrays work the same as `Server`. `[3]string` is data, not an address. `SetFirst` proves it: it
 returns the changed array, because there is nothing else it could do.
 
 `&srv` is the only way to get a pointer to a variable you already have. Go 1.26 added a second way
 for a value you don't have a variable for yet: `new(5)` returns a `*int` pointing at a fresh `5`.
-It is not `&` in disguise, though - `new(x)` makes a **copy** of `x` and hands back a pointer to
-that copy, the same as passing `x` to any other function. Mutate through the pointer, and the
-original `x` does not change:
+`new(x)` makes a **copy** of `x` and hands back a pointer to that copy, the same as passing `x`
+to any other function. Mutate through the pointer, and the original `x` does not change:
 
 ```go
 x := 5
 p := new(x)
 *p = 99
-x   // still 5 - p points at a copy, not at x
+x   // still 5, p points at a copy of x
 ```
 
 ## nil

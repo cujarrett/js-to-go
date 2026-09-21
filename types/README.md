@@ -17,7 +17,7 @@ func (c *Counter) Inc() {
 }
 ```
 
-`(c *Counter)` before the name is the receiver - the same choice as module 01, applied to
+`(c *Counter)` before the name is the receiver, the same choice as module 01 applied to
 `this`. And as in module 01, Go's other option has no JS equivalent:
 
 ```go
@@ -31,7 +31,7 @@ receivers everywhere.
 
 ## Interfaces
 
-A Go interface is a list of methods. Nothing declares that it implements one - if the methods
+A Go interface is a list of methods. Nothing declares that it implements one. If the methods
 exist, it fits. This is duck typing, checked at compile time.
 
 ```js
@@ -56,7 +56,7 @@ Only the signature differs. `dst Store` names an interface, so the compiler chec
 what JS finds out when `dst.put` is missing at runtime.
 
 `var s Store = NewMemStore()` in the test is the compile-time proof. Get a method signature wrong
-and the test file will not build - which is the error you want.
+and the test file will not build.
 
 Small interfaces are the Go habit: one or two methods, defined where they are used rather than
 next to the type that satisfies them. `client.Object` in controller-runtime is exactly this.
