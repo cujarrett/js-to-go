@@ -3,42 +3,57 @@ package values
 // Server is the running state of one machine.
 type Server struct {
 	Name   string
+	Slot   string
 	Active bool
 	Note   *string // nil means "not set", which is different from ""
 }
 
-// Rename sets the server's name. The caller must see the change.
-func Rename(s *Server, name string) {
-	s.Name = name
+// Activate marks the server active. The caller must see the change.
+func Activate(s *Server) {
+	// TODO
 }
 
-// RenameCopy takes a Server by value. Set the name here too - a copy has no
-// address back to the original, so nothing this function does can reach the caller.
-func RenameCopy(s Server, name string) {
-	s.Name = name
+// ActivateCopy takes a Server by value, so s is a copy of the caller's Server.
+// Set Active on it anyway. There is no address back to the original, so nothing
+// written here can reach the caller. That is the whole point of it.
+func ActivateCopy(s Server) {
+	// TODO
 }
 
-// Load fills out with a server named after id and Active true. This is the shape
-// every Kubernetes client call uses: you own the box, the function fills it.
-func Load(id string, out *Server) error {
-	out.Name = id
-	out.Active = true
+// Fetch writes a server named id, in slot "a1" and active, into out.
+// The caller declares the Server and passes its address; Fetch fills it in.
+// Every Kubernetes client Get works this way.
+func Fetch(id string, out *Server) error {
+	// TODO
 	return nil
 }
 
-// NoteOr returns the server's note, or fallback when no note is set.
-func NoteOr(s Server, fallback *string) *string {
-	if s.Note != nil {
-		return s.Note
-	}
-	return fallback
+// SetNote points the server's Note at note.
+// Note is a *string, so a plain assignment will not compile. You need an address.
+// note is a parameter, so it is already this function's own copy of the caller's
+// string, and taking its address cannot alias anything the caller still holds.
+func SetNote(s *Server, note string) {
+	// TODO
 }
 
-// SetFirst sets index 0 of ids and returns the changed array. An array is data,
-// copied whole when passed - the same as Server above, with no address inside it
-// for a change to travel back through. That is why this returns, like RenameCopy
-// would have to, rather than mutating in place.
-func SetFirst(ids [3]string, id string) [3]string {
+// NoteText returns the server's note, or "" when no note is set.
+// Dereferencing a nil pointer panics, so check before reading.
+func NoteText(s Server) string {
 	// TODO
-	return ids
+	return ""
+}
+
+// SlotOf returns the server's slot, or "" when s is nil.
+// A *Server parameter can arrive nil. Reading a field off it panics.
+func SlotOf(s *Server) string {
+	// TODO
+	return ""
+}
+
+// SetLast sets the final element of slots to s and returns the array.
+// A [3]string is data like Server above, so the parameter is a full copy.
+// Returning it is the only way the caller can see the change.
+func SetLast(slots [3]string, s string) [3]string {
+	// TODO
+	return slots
 }

@@ -64,7 +64,7 @@ You write `&` often. You almost never write `*` to read a field, because Go dere
 `s.Name` works whether `s` is a `Server` or a `*Server`. A `*string` has no fields to reach
 through, so `*n` is the only way to get at the value.
 
-Arrays work the same as `Server`. `[3]string` is data, not an address. `SetFirst` proves it: it
+Arrays work the same as `Server`. `[3]string` is data, not an address. `SetLast` proves it: it
 returns the changed array, because there is nothing else it could do.
 
 `&srv` is the only way to get a pointer to a variable you already have. Go 1.26 added a second way

@@ -2,37 +2,37 @@ package values
 
 import "testing"
 
-func TestRename_ChangesTheCaller(t *testing.T) {
-	s := Server{Name: "original"}
-	Rename(&s, "renamed")
-	if s.Name != "renamed" {
-		t.Errorf("Name = %q, want renamed", s.Name)
+func TestActivate_ChangesTheCaller(t *testing.T) {
+	s := Server{Name: "web-1"}
+	Activate(&s)
+	if !s.Active {
+		t.Error("Active = false, want true")
 	}
 }
 
-func TestLoad_FillsTheBox(t *testing.T) {
+func TestFetch_FillsTheCallersServer(t *testing.T) {
 	var got Server
-	if err := Load("web-1", &got); err != nil {
-		t.Fatalf("Load: %v", err)
+	if err := Fetch("web-1", &got); err != nil {
+		t.Fatalf("Fetch: %v", err)
 	}
-	if got.Name != "web-1" || !got.Active {
-		t.Errorf("got %+v, want Name web-1 and Active true", got)
+	if got.Name != "web-1" || got.Slot != "a1" || !got.Active {
+		t.Errorf("got %+v, want Name web-1, Slot a1, Active true", got)
 	}
 }
 
-func TestSetFirst_ReturnsTheChangedArray(t *testing.T) {
-	ids := [3]string{"a", "b", "c"}
-	got := SetFirst(ids, "z")
+func TestSetNote(t *testing.T) {
+	var s Server
+	SetNote(&s, "scheduled reboot")
 
-	if got != [3]string{"z", "b", "c"} {
-		t.Errorf("got = %v, want [z b c]", got)
+	if s.Note == nil {
+		t.Fatal("Note is nil, want a pointer to the note")
 	}
-	// ids itself is still {a, b, c} here - an array argument is a full copy, so
-	// nothing SetFirst does could reach the caller's own variable. Not asserted:
-	// true regardless of what SetFirst does, so it can never be the red test.
+	if *s.Note != "scheduled reboot" {
+		t.Errorf("*Note = %q, want scheduled reboot", *s.Note)
+	}
 }
 
-func TestNoteOr(t *testing.T) {
+func TestNoteText(t *testing.T) {
 	note := "scheduled reboot"
 	tests := []struct {
 		name   string
@@ -40,15 +40,36 @@ func TestNoteOr(t *testing.T) {
 		want   string
 	}{
 		{"note set", Server{Note: &note}, "scheduled reboot"},
-		{"note nil", Server{}, "none"},
+		{"note nil", Server{}, ""},
 		{"note empty string", Server{Note: new(string)}, ""},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NoteOr(tt.server, "none"); got != tt.want {
-				t.Errorf("NoteOr() = %q, want %q", got, tt.want)
+			if got := NoteText(tt.server); got != tt.want {
+				t.Errorf("NoteText() = %q, want %q", got, tt.want)
 			}
 		})
 	}
+}
+
+func TestSlotOf(t *testing.T) {
+	if got := SlotOf(&Server{Slot: "b2"}); got != "b2" {
+		t.Errorf("SlotOf() = %q, want b2", got)
+	}
+	if got := SlotOf(nil); got != "" {
+		t.Errorf("SlotOf(nil) = %q, want empty string", got)
+	}
+}
+
+func TestSetLast_ReturnsTheChangedArray(t *testing.T) {
+	slots := [3]string{"a", "b", "c"}
+	got := SetLast(slots, "z")
+
+	if got != [3]string{"a", "b", "z"} {
+		t.Errorf("got = %v, want [a b z]", got)
+	}
+	// slots itself is still {a, b, c} here. An array argument is a full copy, so
+	// nothing SetLast does could reach the caller's own variable. Not asserted:
+	// true regardless of what SetLast does, so it can never be the red test.
 }
