@@ -13,15 +13,16 @@ func New(w io.Writer) *slog.Logger {
 	return nil
 }
 
-// LogRequest records one handled request as structured attributes.
-// "status" becomes a field a log pipeline can filter on, rather than text
-// buried in a sentence.
+// LogRequest records one handled request as structured attributes, not a
+// formatted string - so "status" is a field a log pipeline can filter on,
+// not a substring inside a sentence.
 func LogRequest(logger *slog.Logger, method, path string, status int) {
 	// TODO
 }
 
-// WithRequestID returns a logger that stamps every later line with id, so the
-// caller never passes it again. pino spells this logger.child({ requestId }).
+// WithRequestID returns a logger that stamps every future line with id,
+// without the caller passing it again. Node's pino calls the same idea
+// logger.child({ requestId }); slog calls it With.
 func WithRequestID(logger *slog.Logger, id string) *slog.Logger {
 	// TODO
 	return nil

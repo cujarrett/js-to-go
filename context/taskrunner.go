@@ -17,9 +17,11 @@ func SlowOp(ctx context.Context, delay time.Duration) error {
 
 type requestIDKey struct{}
 
-// WithRequestID returns a copy of ctx carrying id.
-// Request-scoped values ride the same parameter as cancellation, so no extra
-// argument has to be threaded through every layer.
+// WithRequestID returns a copy of ctx carrying id. JS has no true equivalent -
+// most code just passes an extra parameter, and Node's AsyncLocalStorage,
+// the closer analogue, is rare in ordinary handlers. Go leans on ctx because
+// cancellation and request-scoped values travel through the same parameter
+// by convention, so nothing extra has to be threaded through every call.
 func WithRequestID(ctx context.Context, id string) context.Context {
 	// TODO
 	return ctx

@@ -10,8 +10,7 @@ func (c *Counter) Inc() {
 	// TODO
 }
 
-// IncByValue adds one to c, which is a copy of the caller's Counter.
-// Write the increment anyway. Value() still reads 0 afterwards.
+// IncByValue also adds one, but to a copy. Write it anyway, then read the test.
 func (c Counter) IncByValue() {
 	// TODO
 }
@@ -22,8 +21,8 @@ func (c Counter) Value() int {
 	return 0
 }
 
-// Store is anything that can hold and return a value by key.
-// An interface is a list of methods. No type declares that it implements one.
+// Store is anything that can hold and return a value by key. An interface is a
+// list of methods - no type ever declares that it implements one.
 type Store interface {
 	Put(key, value string)
 	Get(key string) (string, bool)
@@ -51,9 +50,8 @@ func (m *MemStore) Get(key string) (string, bool) {
 	return "", false
 }
 
-// CopyAll writes every pair into dst.
-// dst is an interface, so any type with Put and Get fits. This is what
-// "accept interfaces" means in practice.
+// CopyAll moves every pair from src into dst. It takes interfaces, so it works
+// with any Store - this is what "accept interfaces" means in practice.
 func CopyAll(dst Store, pairs map[string]string) {
 	// TODO
 }

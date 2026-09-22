@@ -1,8 +1,3 @@
-# Git tag marking the commit where every function is still a TODO. `just reset` restores
-# from here, so it must never be moved onto a commit that contains answers.
-# Re-point it with: git tag -f stubs <sha>
-STUBS := "stubs"
-
 # encoding/json/v2 (module jsonv2) is real but experimental - it only builds under this.
 # See jsonv2/README.md.
 JSONV2 := "GOEXPERIMENT=jsonv2"
@@ -42,27 +37,20 @@ ci:
     go test -race $(go list ./... | grep -v /jsonv2)
     {{JSONV2}} go test -race ./jsonv2/
 
-# Restore one module's exercise file to its unsolved state, e.g. `just reset coll`.
-# Only the file you edit is replaced - tests and READMEs are left alone.
-reset module:
+# Restore exercise files to their unsolved state, e.g. `just reset coll`, or all of them
+reset module="":
     #!/usr/bin/env bash
     set -euo pipefail
-    dir=$(just _find {{module}})
-    for f in $(git ls-tree --name-only {{STUBS}} "$dir/" | grep -v _test.go | grep '\.go$'); do
-        git show {{STUBS}}:"$f" > "$f"
+    scope=""
+    if [ -n "{{module}}" ]; then
+        scope="$(just _find {{module}})/"
+    fi
+    # Exercise files only, so tests and READMEs keep any edits made while solving.
+    # HEAD is the unsolved state: answers are committed to the solutions branch, never here.
+    for f in $(git ls-tree -r --name-only HEAD $scope | grep -v _test.go | grep '\.go$'); do
+        git restore --source=HEAD -- "$f"
         echo "reset $f"
     done
-
-# Restore the whole repo to the stubs commit - every module, README and test file,
-# exactly as it was before any answer was written. Leaves this justfile alone, so the
-# reset/solution/diff tooling survives the reset that just used it.
-reset-all:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    for f in $(git ls-tree -r --name-only {{STUBS}} | grep -v '^justfile$'); do
-        git show {{STUBS}}:"$f" > "$f"
-    done
-    echo "reset to the stubs commit ({{STUBS}})"
 
 # Show the reference answer for one module, e.g. `just solution coll`.
 # Reads the solutions branch without touching your working tree.

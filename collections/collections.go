@@ -38,9 +38,9 @@ func Unselected(servers []Server, keep map[string]bool) []string {
 	return nil
 }
 
-// AddServer appends s and returns the grown slice.
-// append may need a bigger backing array, so it returns a slice rather than
-// growing the caller's in place. Discard the return value and nothing changed.
+// AddServer appends s and returns the grown slice. append does not grow the
+// caller's slice in place - it builds a new one and hands it back, so a call
+// that discards the return value changes nothing the caller can see.
 func AddServer(servers []Server, s Server) []Server {
 	// TODO
 	return nil
