@@ -10,14 +10,16 @@ type Server struct {
 
 // Activate marks the server active. The caller must see the change.
 func Activate(s *Server) {
-	// TODO
+	s.Active = true
 }
 
 // Fetch writes a server named id, in slot "a1" and active, into out.
 // The caller declares the Server and passes its address; Fetch fills it in.
 // Every Kubernetes client Get works this way.
 func Fetch(id string, out *Server) error {
-	// TODO
+	out.Name = id
+	out.Slot = "a1"
+	out.Active = true
 	return nil
 }
 
@@ -25,7 +27,7 @@ func Fetch(id string, out *Server) error {
 // A [3]string is data like Server above, so the parameter is a full copy.
 // Returning it is the only way the caller can see the change.
 func SetLast(slots [3]string, s string) [3]string {
-	// TODO
+	slots[len(slots)-1] = s
 	return slots
 }
 
@@ -34,19 +36,23 @@ func SetLast(slots [3]string, s string) [3]string {
 // note is a parameter, so it is already this function's own copy of the caller's
 // string, and taking its address cannot alias anything the caller still holds.
 func SetNote(s *Server, note string) {
-	// TODO
+	s.Note = &note
 }
 
 // NoteText returns the server's note, or "" when no note is set.
 // Dereferencing a nil pointer panics, so check before reading.
 func NoteText(s Server) string {
-	// TODO
-	return ""
+	if s.Note == nil {
+		return ""
+	}
+	return *s.Note
 }
 
 // SlotOf returns the server's slot, or "" when s is nil.
-// A *Server parameter can arrive nil. Reading a field off it panics.
+// A *Se// TODOrver parameter can arrive nil. Reading a field off it panics.
 func SlotOf(s *Server) string {
-	// TODO
-	return ""
+	if s == nil {
+		return ""
+	}
+	return s.Slot
 }
