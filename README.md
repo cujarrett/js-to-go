@@ -12,7 +12,7 @@ Start at `values`. Work down.
 
 | Module | Idea |
 |---|---|
-| [values](./values/README.md) | pointers, copies, nil |
+| [values](./values/README.md) | pointers and copies, then nil. Two sittings |
 | [collections](./collections/README.md) | slices, maps, sets |
 | [errors](./errors/README.md) | errors as values |
 | [types](./types/README.md) | methods, receivers, interfaces |
@@ -26,13 +26,12 @@ Start at `values`. Work down.
 ## Running
 
 ```sh
-go test ./values/                    # one module
-go test -run TestLoad ./values/      # one function's tests
-just ci                              # everything
+go test ./values/                   # one module
+go test -run TestFetch ./values/    # one function's tests
+just ci                             # everything
 ```
 
-Test names are `Test<Function>_<what it checks>`, so a failure like `TestLoad_FillsTheBox` names
-the function you need to open.
+Test names are `Test<Function>_<what it checks>`, so a failure names the function you need to open.
 
 ## Stuck?
 
