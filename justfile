@@ -75,7 +75,9 @@ diff module:
         echo "no solutions branch yet - see 'just help-solutions'" >&2
         exit 1
     fi
-    git diff solutions -- "$dir"
+    # Exercise files only, so a README or test edited since the answer was recorded
+    # does not show up as though it were part of your answer.
+    git diff solutions -- $(git ls-tree -r --name-only HEAD "$dir/" | grep -v _test.go | grep '\.go$')
 
 # How to record an answer once a module is green
 help-solutions:
