@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestEncodeUsesTagNames(t *testing.T) {
+func TestEncode_UsesTagNames(t *testing.T) {
 	out, err := Encode(Config{SourceSecret: "demo1-tls", Targets: []string{"demo1"}})
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
@@ -19,7 +19,7 @@ func TestEncodeUsesTagNames(t *testing.T) {
 	}
 }
 
-func TestEncodeOmitsEmptyOptionalFields(t *testing.T) {
+func TestEncode_OmitsEmptyOptionalFields(t *testing.T) {
 	out, _ := Encode(Config{SourceSecret: "demo1-tls", Targets: []string{"demo1"}})
 
 	got := string(out)
@@ -31,7 +31,7 @@ func TestEncodeOmitsEmptyOptionalFields(t *testing.T) {
 	}
 }
 
-func TestEncodeNeverIncludesUnexportedFields(t *testing.T) {
+func TestEncode_NeverIncludesUnexportedFields(t *testing.T) {
 	out, _ := Encode(Config{SourceSecret: "demo1-tls", internal: "hidden"})
 	if strings.Contains(string(out), "hidden") {
 		t.Errorf("got %s, want no unexported field", out)
@@ -48,7 +48,7 @@ func TestDecode(t *testing.T) {
 	}
 }
 
-func TestDecodeIgnoresUnknownFields(t *testing.T) {
+func TestDecode_IgnoresUnknownFields(t *testing.T) {
 	got, err := Decode([]byte(`{"sourceSecret":"demo2-tls","nonsense":true}`))
 	if err != nil {
 		t.Fatalf("Decode: %v", err)

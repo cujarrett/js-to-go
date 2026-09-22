@@ -39,7 +39,7 @@ func do(t *testing.T, method, path string) *httptest.ResponseRecorder {
 	return rec
 }
 
-func TestHealthz(t *testing.T) {
+func TestRoutes_Healthz(t *testing.T) {
 	rec := do(t, http.MethodGet, "/healthz")
 	if rec.Code != http.StatusOK {
 		t.Errorf("status = %d, want 200", rec.Code)
@@ -49,7 +49,7 @@ func TestHealthz(t *testing.T) {
 	}
 }
 
-func TestListReturnsJSON(t *testing.T) {
+func TestRoutes_ListReturnsJSON(t *testing.T) {
 	rec := do(t, http.MethodGet, "/servers")
 	if rec.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200", rec.Code)
@@ -67,7 +67,7 @@ func TestListReturnsJSON(t *testing.T) {
 	}
 }
 
-func TestGetOne(t *testing.T) {
+func TestRoutes_GetOne(t *testing.T) {
 	rec := do(t, http.MethodGet, "/servers/web-1")
 	if rec.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200", rec.Code)
@@ -82,13 +82,13 @@ func TestGetOne(t *testing.T) {
 	}
 }
 
-func TestGetMissingIs404(t *testing.T) {
+func TestRoutes_GetMissingIs404(t *testing.T) {
 	if rec := do(t, http.MethodGet, "/servers/nope"); rec.Code != http.StatusNotFound {
 		t.Errorf("status = %d, want 404", rec.Code)
 	}
 }
 
-func TestWrongMethodIs405(t *testing.T) {
+func TestRoutes_WrongMethodIs405(t *testing.T) {
 	if rec := do(t, http.MethodPost, "/servers"); rec.Code != http.StatusMethodNotAllowed {
 		t.Errorf("status = %d, want 405 - register the method in the pattern", rec.Code)
 	}

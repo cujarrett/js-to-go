@@ -17,7 +17,7 @@ const testPort = "18099"
 
 func fixedPort(string) string { return testPort }
 
-func TestRunServesHealthzThenShutsDownCleanly(t *testing.T) {
+func TestRun_ServesHealthzThenShutsDownCleanly(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	var stdout bytes.Buffer
 
@@ -56,7 +56,7 @@ func TestRunServesHealthzThenShutsDownCleanly(t *testing.T) {
 	}
 }
 
-func TestRunLogsStartupAsJSON(t *testing.T) {
+func TestRun_LogsStartupAsJSON(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
 	defer cancel()
 	var stdout bytes.Buffer

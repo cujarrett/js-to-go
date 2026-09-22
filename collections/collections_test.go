@@ -20,7 +20,7 @@ func TestNames(t *testing.T) {
 	}
 }
 
-func TestNamesOnEmptyInput(t *testing.T) {
+func TestNames_OnEmptyInput(t *testing.T) {
 	if got := Names(nil); len(got) != 0 {
 		t.Errorf("Names(nil) = %v, want empty", got)
 	}
@@ -64,7 +64,7 @@ func TestUnselected(t *testing.T) {
 	}
 }
 
-func TestAddServerReturnsTheGrownSlice(t *testing.T) {
+func TestAddServer_ReturnsTheGrownSlice(t *testing.T) {
 	servers := inventory()
 	grown := AddServer(servers, Server{Name: "web-4", Slot: "demo1"})
 

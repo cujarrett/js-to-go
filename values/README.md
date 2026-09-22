@@ -42,9 +42,27 @@ RenameCopy(srv2, "renamed")   // no &, so Go passes a copy
 srv2.Name                     // old
 ```
 
-`&` makes a pointer, `*` in a type means one. You write `&` often. You almost never write `*` to
-read a field, because Go dereferences for you: `s.Name` works whether `s` is a `Server` or a
-`*Server`.
+`&` makes a pointer, `*` in a type means one. The same `*` in front of a value does the opposite
+job, so read it by position:
+
+```go
+s := Server{Name: "old"}
+p := &s              // & in front of a value: the address of s. p has type *Server
+p.Name = "web-1"     // no * needed, Go dereferences a field access for you
+s.Name               // web-1, because p and s are the same Server
+
+n := &s.Name         // a field has an address like anything else. n has type *string
+*n = "web-2"         // * in front of a value: the string n points at
+s.Name               // web-2
+```
+
+- `*Server` in a type: a pointer to a `Server`.
+- `&s` in front of a value: the address of `s`.
+- `*n` in front of a value: the thing `n` points at.
+
+You write `&` often. You almost never write `*` to read a field, because Go dereferences for you:
+`s.Name` works whether `s` is a `Server` or a `*Server`. A `*string` has no fields to reach
+through, so `*n` is the only way to get at the value.
 
 Arrays work the same as `Server`. `[3]string` is data, not an address. `SetFirst` proves it: it
 returns the changed array, because there is nothing else it could do.
@@ -64,6 +82,10 @@ x   // still 5, p points at a copy of x
 ## nil
 
 A pointer can be nil, which is how an API says "not set". That is different from `""`.
+
+Go has no `undefined`. A declared variable is its zero value immediately, and the zero value of a
+pointer is nil, so `var n *string` is already nil with no init step to write. `n := nil` does not
+compile, because `nil` on its own has no type for Go to infer.
 
 ```js
 // JS has two of these already

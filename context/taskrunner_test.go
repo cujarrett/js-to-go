@@ -7,13 +7,13 @@ import (
 	"time"
 )
 
-func TestSlowOpFinishes(t *testing.T) {
+func TestSlowOp_Finishes(t *testing.T) {
 	if err := SlowOp(context.Background(), time.Millisecond); err != nil {
 		t.Errorf("SlowOp() = %v, want nil", err)
 	}
 }
 
-func TestSlowOpTimesOut(t *testing.T) {
+func TestSlowOp_TimesOut(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond)
 	defer cancel()
 
@@ -23,7 +23,7 @@ func TestSlowOpTimesOut(t *testing.T) {
 	}
 }
 
-func TestSlowOpCanceled(t *testing.T) {
+func TestSlowOp_Canceled(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 
@@ -33,7 +33,7 @@ func TestSlowOpCanceled(t *testing.T) {
 	}
 }
 
-func TestRequestIDRoundTrips(t *testing.T) {
+func TestRequestID_RoundTrips(t *testing.T) {
 	ctx := WithRequestID(context.Background(), "req-42")
 	got, ok := RequestID(ctx)
 	if !ok || got != "req-42" {
@@ -41,7 +41,7 @@ func TestRequestIDRoundTrips(t *testing.T) {
 	}
 }
 
-func TestRequestIDAbsentByDefault(t *testing.T) {
+func TestRequestID_AbsentByDefault(t *testing.T) {
 	_, ok := RequestID(context.Background())
 	if ok {
 		t.Error("RequestID() ok = true on a bare context, want false")

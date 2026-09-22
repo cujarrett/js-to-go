@@ -26,9 +26,13 @@ Start at `values`. Work down.
 ## Running
 
 ```sh
-go test ./values/          # one module
-just ci                    # everything
+go test ./values/                    # one module
+go test -run TestLoad ./values/      # one function's tests
+just ci                              # everything
 ```
+
+Test names are `Test<Function>_<what it checks>`, so a failure like `TestLoad_FillsTheBox` names
+the function you need to open.
 
 ## Stuck?
 

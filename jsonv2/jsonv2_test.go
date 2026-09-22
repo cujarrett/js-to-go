@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestEncodeOmitsZeroTime(t *testing.T) {
+func TestEncode_OmitsZeroTime(t *testing.T) {
 	out, err := Encode(Record{Name: "web-1"})
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
@@ -16,7 +16,7 @@ func TestEncodeOmitsZeroTime(t *testing.T) {
 	}
 }
 
-func TestEncodeKeepsSetTime(t *testing.T) {
+func TestEncode_KeepsSetTime(t *testing.T) {
 	when := time.Date(2026, 1, 2, 3, 4, 5, 0, time.UTC)
 	out, err := Encode(Record{Name: "web-1", LastSynced: when})
 	if err != nil {

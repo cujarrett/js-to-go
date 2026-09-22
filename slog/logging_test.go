@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestLogRequestIsOneJSONLine(t *testing.T) {
+func TestLogRequest_IsOneJSONLine(t *testing.T) {
 	var buf bytes.Buffer
 	logger := New(&buf)
 
@@ -31,7 +31,7 @@ func TestLogRequestIsOneJSONLine(t *testing.T) {
 	}
 }
 
-func TestWithRequestIDStampsEveryLine(t *testing.T) {
+func TestWithRequestID_StampsEveryLine(t *testing.T) {
 	var buf bytes.Buffer
 	base := New(&buf)
 	scoped := WithRequestID(base, "req-42")
@@ -50,7 +50,7 @@ func TestWithRequestIDStampsEveryLine(t *testing.T) {
 	}
 }
 
-func TestBaseLoggerUnaffected(t *testing.T) {
+func TestWithRequestID_LeavesBaseLoggerUnaffected(t *testing.T) {
 	var buf bytes.Buffer
 	base := New(&buf)
 	_ = WithRequestID(base, "req-42") // scoped copy, base must not change

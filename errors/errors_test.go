@@ -10,7 +10,7 @@ func store() *Store {
 	return NewStore(map[string]string{"demo1": "web-1"})
 }
 
-func TestGetFound(t *testing.T) {
+func TestGet_Found(t *testing.T) {
 	got, err := store().Get("demo1")
 	if err != nil {
 		t.Fatalf("Get: %v", err)
@@ -20,14 +20,14 @@ func TestGetFound(t *testing.T) {
 	}
 }
 
-func TestGetMissingReturnsSentinel(t *testing.T) {
+func TestGet_MissingReturnsSentinel(t *testing.T) {
 	_, err := store().Get("demo9")
 	if !stderrors.Is(err, ErrNotFound) {
 		t.Errorf("err = %v, want ErrNotFound", err)
 	}
 }
 
-func TestDescribeWrapsWithContext(t *testing.T) {
+func TestDescribe_WrapsWithContext(t *testing.T) {
 	_, err := store().Describe("demo9")
 	if err == nil {
 		t.Fatal("Describe() = nil, want an error")
@@ -40,7 +40,7 @@ func TestDescribeWrapsWithContext(t *testing.T) {
 	}
 }
 
-func TestRequireCarriesTheKey(t *testing.T) {
+func TestRequire_CarriesTheKey(t *testing.T) {
 	err := store().Require("demo9")
 
 	// errors.AsType (Go 1.26+) replaces the three-line var-and-As pattern with one
@@ -54,7 +54,7 @@ func TestRequireCarriesTheKey(t *testing.T) {
 	}
 }
 
-func TestRequireFoundIsNil(t *testing.T) {
+func TestRequire_FoundIsNil(t *testing.T) {
 	if err := store().Require("demo1"); err != nil {
 		t.Errorf("Require() = %v, want nil", err)
 	}

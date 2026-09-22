@@ -1,7 +1,7 @@
 // Command server is every module before it, wired into one runnable process the
 // way this workspace wires every Go service: env-configured, structured logging,
-// graceful shutdown. func main is deliberately the only thing not under test -
-// run does the real work, so it is the only thing that has to be.
+// graceful shutdown. func main is deliberately the only thing not under test.
+// run holds the real work, so run is what the tests cover.
 package main
 
 import (
@@ -32,12 +32,12 @@ func (m *memStore) Get(name string) (service.Server, bool) {
 
 func (m *memStore) List() []service.Server { return m.servers }
 
-// run builds the logger and the server, starts listening, and blocks until ctx
-// is done - then shuts down cleanly instead of dropping connections. getenv and
-// stdout are parameters rather than os.Getenv/os.Stdout directly, which is what
-// makes this function testable without a real environment or a real terminal.
+// run builds the logger and the server, starts listening, then blocks until ctx
+// is done and shuts down without dropping live connections.
+// getenv and stdout are parameters instead of os.Getenv and os.Stdout, so a test
+// can hand it a fake environment and a buffer.
 func run(ctx context.Context, getenv func(string) string, stdout io.Writer) error {
-	// TODO: build a *slog.Logger writing JSON to stdout - see module 07
+	// TODO: build a *slog.Logger writing JSON to stdout, as in module 07
 
 	// TODO: read PORT from getenv, default "8080" if unset
 
@@ -48,7 +48,7 @@ func run(ctx context.Context, getenv func(string) string, stdout io.Writer) erro
 	// TODO: start it in a goroutine, log the port it is listening on
 
 	// TODO: block on <-ctx.Done(), then Shutdown with a fresh context bounded by
-	// a few seconds - one of the exact things module 08 exists for
+	// shutdownTimeout. ctx is already done by that point, so it cannot be reused.
 
 	return nil
 }

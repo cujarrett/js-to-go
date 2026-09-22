@@ -2,7 +2,7 @@ package types
 
 import "testing"
 
-func TestIncUsesAPointerReceiver(t *testing.T) {
+func TestInc_UsesAPointerReceiver(t *testing.T) {
 	var c Counter
 	c.Inc()
 	c.Inc()
@@ -11,7 +11,7 @@ func TestIncUsesAPointerReceiver(t *testing.T) {
 	}
 }
 
-func TestIncByValueChangesNothing(t *testing.T) {
+func TestIncByValue_ChangesNothing(t *testing.T) {
 	var c Counter
 	c.IncByValue()
 	if c.Value() != 0 {
@@ -19,7 +19,7 @@ func TestIncByValueChangesNothing(t *testing.T) {
 	}
 }
 
-func TestMemStoreSatisfiesStore(t *testing.T) {
+func TestMemStore_SatisfiesStore(t *testing.T) {
 	var s Store = NewMemStore() // fails to compile if the methods are wrong
 
 	s.Put("demo1", "web-1")

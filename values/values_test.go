@@ -2,7 +2,7 @@ package values
 
 import "testing"
 
-func TestRenameChangesTheCaller(t *testing.T) {
+func TestRename_ChangesTheCaller(t *testing.T) {
 	s := Server{Name: "original"}
 	Rename(&s, "renamed")
 	if s.Name != "renamed" {
@@ -10,7 +10,7 @@ func TestRenameChangesTheCaller(t *testing.T) {
 	}
 }
 
-func TestLoadFillsTheBox(t *testing.T) {
+func TestLoad_FillsTheBox(t *testing.T) {
 	var got Server
 	if err := Load("web-1", &got); err != nil {
 		t.Fatalf("Load: %v", err)
@@ -20,7 +20,7 @@ func TestLoadFillsTheBox(t *testing.T) {
 	}
 }
 
-func TestSetFirstReturnsTheChangedArray(t *testing.T) {
+func TestSetFirst_ReturnsTheChangedArray(t *testing.T) {
 	ids := [3]string{"a", "b", "c"}
 	got := SetFirst(ids, "z")
 
