@@ -25,10 +25,13 @@ Go's second option has no JS equivalent. You can ask for a copy instead.
 
 ```go
 // Go: no pointer, so a copy
-func ActivateCopy(s Server) {
+func activateCopy(s Server) {
     s.Active = true   // caller does not see it, s is a copy
 }
 ```
+
+There is no exercise for that one. Nothing a copy does is visible from outside, so no test could
+tell a correct version from an empty one. `SetLast` below is the same lesson, made testable.
 
 Calling them is where it shows:
 
@@ -38,7 +41,7 @@ Activate(&srv)       // &srv is "the address of srv"
 srv.Active           // true
 
 srv2 := Server{Name: "web-2"}
-ActivateCopy(srv2)   // no &, so Go passes a copy
+activateCopy(srv2)   // no &, so Go passes a copy
 srv2.Active          // false
 ```
 

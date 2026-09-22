@@ -13,13 +13,6 @@ func Activate(s *Server) {
 	// TODO
 }
 
-// ActivateCopy takes a Server by value, so s is a copy of the caller's Server.
-// Set Active on it anyway. There is no address back to the original, so nothing
-// written here can reach the caller. That is the whole point of it.
-func ActivateCopy(s Server) {
-	// TODO
-}
-
 // Fetch writes a server named id, in slot "a1" and active, into out.
 // The caller declares the Server and passes its address; Fetch fills it in.
 // Every Kubernetes client Get works this way.
