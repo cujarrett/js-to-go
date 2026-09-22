@@ -12,7 +12,7 @@ Start at `values`. Work down.
 
 | Module | Idea |
 |---|---|
-| [values](./values/README.md) | pointers and copies, then nil. Two sittings |
+| [values](./values/README.md) | pointers, copies, nil |
 | [collections](./collections/README.md) | slices, maps, sets |
 | [errors](./errors/README.md) | errors as values |
 | [types](./types/README.md) | methods, receivers, interfaces |

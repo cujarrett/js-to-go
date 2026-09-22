@@ -103,11 +103,10 @@ Reading `*s.Note` when it is nil panics. Check first.
 ## Run
 
 ```sh
-go test -run 'TestActivate|TestFetch|TestSetLast' ./values/   # first sitting
-go test ./values/                                             # both
+go test ./values/
 ```
 
-`values.go` is one sitting, `nil.go` is the next. One function at a time is enough: run the test,
-read the failure, fix that function, run it again. Come back to the rest another night.
+One function at a time is enough. Run the test, read the top failure, fix that function, run it
+again. Stop whenever. The functions are in the order this README explains them.
 
 When it is all green, delete an `&` and read the compiler error.
