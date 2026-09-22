@@ -28,28 +28,6 @@ func Fetch(id string, out *Server) error {
 	return nil
 }
 
-// SetNote points the server's Note at note.
-// Note is a *string, so a plain assignment will not compile. You need an address.
-// note is a parameter, so it is already this function's own copy of the caller's
-// string, and taking its address cannot alias anything the caller still holds.
-func SetNote(s *Server, note string) {
-	// TODO
-}
-
-// NoteText returns the server's note, or "" when no note is set.
-// Dereferencing a nil pointer panics, so check before reading.
-func NoteText(s Server) string {
-	// TODO
-	return ""
-}
-
-// SlotOf returns the server's slot, or "" when s is nil.
-// A *Server parameter can arrive nil. Reading a field off it panics.
-func SlotOf(s *Server) string {
-	// TODO
-	return ""
-}
-
 // SetLast sets the final element of slots to s and returns the array.
 // A [3]string is data like Server above, so the parameter is a full copy.
 // Returning it is the only way the caller can see the change.

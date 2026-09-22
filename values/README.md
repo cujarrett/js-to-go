@@ -2,19 +2,19 @@
 
 Go makes you say whether you mean the thing or a copy of the thing. JavaScript never asks.
 
-Same function, same two parameters, in each language.
+The same function in each language.
 
 ```js
 // JS: objects are always the real thing
-const rename = (s, name) => {
-  s.name = name   // caller sees it
+const activate = (s) => {
+  s.active = true   // caller sees it
 }
 ```
 
 ```go
 // Go: a pointer, so the same object
-func Rename(s *Server, name string) {
-    s.Name = name   // caller sees it
+func Activate(s *Server) {
+    s.Active = true   // caller sees it
 }
 ```
 
@@ -25,21 +25,21 @@ Go's second option has no JS equivalent. You can ask for a copy instead.
 
 ```go
 // Go: no pointer, so a copy
-func RenameCopy(s Server, name string) {
-    s.Name = name   // caller does not see it, s is a copy
+func ActivateCopy(s Server) {
+    s.Active = true   // caller does not see it, s is a copy
 }
 ```
 
 Calling them is where it shows:
 
 ```go
-srv := Server{Name: "old"}
-Rename(&srv, "renamed")    // &srv is "the address of srv"
-srv.Name                   // renamed
+srv := Server{Name: "web-1"}
+Activate(&srv)       // &srv is "the address of srv"
+srv.Active           // true
 
-srv2 := Server{Name: "old"}
-RenameCopy(srv2, "renamed")   // no &, so Go passes a copy
-srv2.Name                     // old
+srv2 := Server{Name: "web-2"}
+ActivateCopy(srv2)   // no &, so Go passes a copy
+srv2.Active          // false
 ```
 
 `&` makes a pointer, `*` in a type means one. The same `*` in front of a value does the opposite
@@ -56,21 +56,22 @@ n := &s.Name         // a field has an address like anything else. n has type *s
 s.Name               // web-2
 ```
 
-- `*Server` in a type: a pointer to a `Server`.
-- `&s` in front of a value: the address of `s`.
-- `*n` in front of a value: the thing `n` points at.
+You write `&` often and `*` rarely, because a field access dereferences for you. A `*string` has
+no fields to reach through, so `*n` is the only way in.
 
-You write `&` often. You almost never write `*` to read a field, because Go dereferences for you:
-`s.Name` works whether `s` is a `Server` or a `*Server`. A `*string` has no fields to reach
-through, so `*n` is the only way to get at the value.
+Arrays work the same as `Server`. `[3]string` is data, not an address. `SetLast`, one of the
+functions you write below, has to return the array because there is nothing else it could do.
 
-Arrays work the same as `Server`. `[3]string` is data, not an address. `SetLast` proves it: it
-returns the changed array, because there is nothing else it could do.
+`&srv` takes the address of a variable you already have. `new` is for when you have no variable to
+point at: it allocates a value and returns its **address**.
 
-`&srv` is the only way to get a pointer to a variable you already have. Go 1.26 added a second way
-for a value you don't have a variable for yet: `new(5)` returns a `*int` pointing at a fresh `5`.
-`new(x)` makes a **copy** of `x` and hands back a pointer to that copy, the same as passing `x`
-to any other function. Mutate through the pointer, and the original `x` does not change:
+```go
+s := new(string)   // a fresh "", s is a *string
+p := new(5)        // a fresh 5, p is a *int. Go 1.26 and later
+```
+
+Hand `new` a variable and it copies it, the same as passing it to any other function. Writing
+through the pointer leaves the original alone:
 
 ```go
 x := 5
@@ -102,7 +103,11 @@ Reading `*s.Note` when it is nil panics. Check first.
 ## Run
 
 ```sh
-go test ./values/
+go test -run 'TestActivate|TestFetch|TestSetLast' ./values/   # first sitting
+go test ./values/                                             # both
 ```
 
-Make every test pass. Then delete an `&` and read the compiler error.
+`values.go` is one sitting, `nil.go` is the next. One function at a time is enough: run the test,
+read the failure, fix that function, run it again. Come back to the rest another night.
+
+When it is all green, delete an `&` and read the compiler error.
