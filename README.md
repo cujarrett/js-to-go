@@ -35,6 +35,16 @@ Test names are `Test<Function>_<what it checks>`, so a failure names the functio
 
 ## Stuck?
 
+`go doc` reads the standard library docs with no internet:
+
+```sh
+go doc encoding/json.Unmarshal   # one function
+go doc net/http.ResponseWriter   # one type and its methods
+go doc -all log/slog             # a whole package
+```
+
+Still stuck:
+
 ```sh
 just diff values      # your answer against the reference, for one module
 just solution values  # print the reference answer outright

@@ -8,6 +8,7 @@ Slices are arrays. Maps are plain objects. The differences are worth knowing.
 | `xs.push(x)` | `xs = append(xs, x)` returns a new slice, so reassign |
 | `xs.map(f)` | a `for` loop. Go has no map/filter/reduce |
 | `const m = {}` | `m := map[string]int{}` |
+| no JS equivalent | `var m map[string]int` is nil. Reads work, but **a write panics**. Build it with `map[string]int{}` or `make(map[string]int)` |
 | `m[k] ?? 0` | `m[k]`, since a missing key already gives the zero value |
 | `k in m` | `v, ok := m[k]` |
 | `new Set()` | `map[string]bool` |

@@ -45,6 +45,10 @@ request that was mid-response gets to complete instead of being cut off.
 
 `Shutdown` takes its **own** context because `ctx` is already done by the time you call it.
 
+`srv.ListenAndServe()` blocks until the server stops, so it runs in a goroutine. It always returns
+an error. After `Shutdown` that error is `http.ErrServerClosed`, which means a clean stop. Check for
+it with `errors.Is` before treating the error as a failure.
+
 ## Run
 
 ```sh

@@ -36,6 +36,20 @@ reader, and `targets: []` is a real statement.
 This is the same decision as `copies int32` in secret-mirror-controller, where `0` is a genuine
 answer and had to stay visible.
 
+## Decoding
+
+```js
+const config = JSON.parse(text)
+```
+
+```go
+var config Config
+err := json.Unmarshal(data, &config)
+```
+
+`Unmarshal` fills in a value you already declared, so it needs that value's address. This is the
+same shape as `Fetch` in module 01.
+
 ## Run
 
 ```sh

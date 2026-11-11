@@ -46,6 +46,15 @@ rather than a new argument added to every function along the way.
 `context.WithValue` needs an unexported key type (`requestIDKey`). Two packages using the string
 `"requestID"` as a key would silently collide and overwrite each other's value.
 
+```go
+ctx = context.WithValue(ctx, requestIDKey{}, "req-42")
+v, ok := ctx.Value(requestIDKey{}).(string)
+```
+
+`ctx.Value` returns `any`, Go's `unknown`. `.(string)` is a **type assertion**: it checks the value
+really is a string. With `, ok` it reports false instead of panicking, the same shape as
+`v, ok := m[k]`. A missing key gives `nil`, which is not a string, so `ok` is false.
+
 ## Run
 
 ```sh

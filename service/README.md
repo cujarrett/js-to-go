@@ -29,6 +29,21 @@ mocking library. This is the Go habit: **accept interfaces, return structs.**
 `httptest.NewRequest` and `httptest.NewRecorder` run a handler directly, in-process. No port, no
 server, no sleeping.
 
+## Writing a response
+
+```go
+w.Header().Set("Content-Type", "application/json")   // 1. headers
+w.WriteHeader(http.StatusOK)                          // 2. status
+json.NewEncoder(w).Encode(v)                          // 3. body
+```
+
+Order matters. The status and headers go out on the first `WriteHeader` or body write. Go drops
+any header set after that **with no error**.
+
+- No `WriteHeader` call: the status is 200.
+- A plain text body: `fmt.Fprint(w, "ok")`.
+- A 404: `http.NotFound(w, r)`.
+
 ## Run
 
 ```sh
