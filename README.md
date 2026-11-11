@@ -17,7 +17,7 @@ Start at `values`. Work down.
 | [errors](./errors/README.md) | errors as values |
 | [types](./types/README.md) | methods, receivers, interfaces |
 | [json](./json/README.md) | struct tags, encoding |
-| [jsonv2](./jsonv2/README.md) | a real stdlib package, still experimental |
+| [jsonv2](./jsonv2/README.md) | the standard library's newer JSON package |
 | [slog](./slog/README.md) | structured logging |
 | [context](./context/README.md) | cancellation, deadlines, request values |
 | [service](./service/README.md) | an HTTP API, stdlib only |

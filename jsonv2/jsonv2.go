@@ -1,6 +1,5 @@
 // Package jsonv2 is one difference between encoding/json and its v2 successor,
-// isolated. On Go 1.26, v2 only builds under GOEXPERIMENT=jsonv2, which
-// `just test jsonv2` and `just ci` set for you.
+// isolated. v2 is stable from Go 1.27, so go.mod asks for 1.27.
 package jsonv2
 
 import "time"

@@ -5,8 +5,7 @@ No JS side this time. This is Go against itself, v1 of its own standard library 
 Import it as `"encoding/json/v2"`. The package is still called `json`, and `json.Marshal(v)` works
 the same as in v1.
 
-- Go 1.26: v2 builds only with `GOEXPERIMENT=jsonv2` set. `just test jsonv2` and `just ci` set it.
-- Go 1.27 and later: plain `go test ./jsonv2/` builds too.
+v2 is stable from Go 1.27, which is why `go.mod` asks for 1.27.
 
 ## The bug v2 fixes
 
