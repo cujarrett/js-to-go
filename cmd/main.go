@@ -6,8 +6,11 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
+	"log/slog"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
@@ -37,20 +40,40 @@ func (m *memStore) List() []service.Server { return m.servers }
 // stdout are parameters rather than os.Getenv/os.Stdout directly, which is what
 // makes this function testable without a real environment or a real terminal.
 func run(ctx context.Context, getenv func(string) string, stdout io.Writer) error {
-	// TODO: build a *slog.Logger writing JSON to stdout - see module 07
+	logger := slog.New(slog.NewJSONHandler(stdout, nil))
 
-	// TODO: read PORT from getenv, default "8080" if unset
+	port := getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-	// TODO: build a memStore, then service.New(store).Routes() for the handler
+	store := &memStore{servers: []service.Server{
+		{Name: "web-1", Slot: "demo1", Active: true},
+	}}
+	srv := &http.Server{Addr: ":" + port, Handler: service.New(store).Routes()}
 
-	// TODO: construct an *http.Server on ":"+port with the routes above
+	serveErr := make(chan error, 1)
+	go func() {
+		err := srv.ListenAndServe()
+		if errors.Is(err, http.ErrServerClosed) {
+			err = nil
+		}
+		serveErr <- err
+	}()
+	logger.Info("listening", "port", port)
 
-	// TODO: start it in a goroutine, log the port it is listening on
+	select {
+	case err := <-serveErr:
+		return err
+	case <-ctx.Done():
+	}
 
-	// TODO: block on <-ctx.Done(), then Shutdown with a fresh context bounded by
-	// a few seconds - one of the exact things module 08 exists for
-
-	return nil
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		return err
+	}
+	return <-serveErr
 }
 
 func main() {

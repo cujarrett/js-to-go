@@ -3,6 +3,8 @@
 package service
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -34,31 +36,37 @@ func New(store Store) *API {
 // parameters in the pattern itself, so no router library is needed.
 func (a *API) Routes() http.Handler {
 	mux := http.NewServeMux()
-	// TODO: register
-	//   GET /healthz          -> a.handleHealth
-	//   GET /servers          -> a.handleList
-	//   GET /servers/{name}   -> a.handleGet
+	mux.HandleFunc("GET /healthz", a.handleHealth)
+	mux.HandleFunc("GET /servers", a.handleList)
+	mux.HandleFunc("GET /servers/{name}", a.handleGet)
 	return mux
 }
 
 // handleHealth reports that the process is up. Every service here has one.
 func (a *API) handleHealth(w http.ResponseWriter, r *http.Request) {
-	// TODO: 200 with the body "ok"
+	fmt.Fprint(w, "ok")
 }
 
 // handleList writes every server as a JSON array.
 func (a *API) handleList(w http.ResponseWriter, r *http.Request) {
-	// TODO
+	writeJSON(w, http.StatusOK, a.store.List())
 }
 
 // handleGet writes one server as JSON, or 404 when it does not exist.
 // The name comes from the path: r.PathValue("name").
 func (a *API) handleGet(w http.ResponseWriter, r *http.Request) {
-	// TODO
+	s, ok := a.store.Get(r.PathValue("name"))
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+	writeJSON(w, http.StatusOK, s)
 }
 
 // writeJSON is the one place that sets the content type and encodes. Keeping it
 // in a helper stops three handlers disagreeing about headers.
 func writeJSON(w http.ResponseWriter, status int, v any) {
-	// TODO
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(v)
 }

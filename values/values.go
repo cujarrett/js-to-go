@@ -49,7 +49,7 @@ func NoteText(s Server) string {
 }
 
 // SlotOf returns the server's slot, or "" when s is nil.
-// A *Se// TODOrver parameter can arrive nil. Reading a field off it panics.
+// A *Server parameter can arrive nil. Reading a field off it panics.
 func SlotOf(s *Server) string {
 	if s == nil {
 		return ""

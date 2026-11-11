@@ -1,6 +1,9 @@
 package errors
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // ErrNotFound is a sentinel: a specific error value callers can test for.
 var ErrNotFound = errors.New("not found")
@@ -17,15 +20,21 @@ func NewStore(items map[string]string) *Store {
 
 // Get returns the value for key, or ErrNotFound when it is absent.
 func (s *Store) Get(key string) (string, error) {
-	// TODO
-	return "", nil
+	v, ok := s.items[key]
+	if !ok {
+		return "", ErrNotFound
+	}
+	return v, nil
 }
 
 // Describe returns "key=value" for key. When Get fails, wrap the error with
 // context using %w so the caller can still recognise ErrNotFound.
 func (s *Store) Describe(key string) (string, error) {
-	// TODO
-	return "", nil
+	v, err := s.Get(key)
+	if err != nil {
+		return "", fmt.Errorf("describing %s: %w", key, err)
+	}
+	return key + "=" + v, nil
 }
 
 // MissingKeyError says which key was missing, for callers that want the detail
@@ -36,12 +45,13 @@ type MissingKeyError struct {
 
 // Error makes MissingKeyError satisfy the error interface.
 func (e *MissingKeyError) Error() string {
-	// TODO: return something like `key "demo9" is missing`
-	return ""
+	return fmt.Sprintf("key %q is missing", e.Key)
 }
 
 // Require returns a *MissingKeyError when key is absent, and nil otherwise.
 func (s *Store) Require(key string) error {
-	// TODO
+	if _, ok := s.items[key]; !ok {
+		return &MissingKeyError{Key: key}
+	}
 	return nil
 }

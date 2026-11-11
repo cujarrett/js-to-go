@@ -7,18 +7,17 @@ type Counter struct {
 
 // Inc adds one. The caller must see the change.
 func (c *Counter) Inc() {
-	// TODO
+	c.n++
 }
 
 // IncByValue also adds one, but to a copy. Write it anyway, then read the test.
 func (c Counter) IncByValue() {
-	// TODO
+	c.n++
 }
 
 // Value returns the current count.
 func (c Counter) Value() int {
-	// TODO
-	return 0
+	return c.n
 }
 
 // Store is anything that can hold and return a value by key. An interface is a
@@ -35,23 +34,24 @@ type MemStore struct {
 
 // NewMemStore returns an empty MemStore ready to use.
 func NewMemStore() *MemStore {
-	// TODO: a nil map panics on write, so build one here
-	return &MemStore{}
+	return &MemStore{items: make(map[string]string)}
 }
 
 // Put stores a value.
 func (m *MemStore) Put(key, value string) {
-	// TODO
+	m.items[key] = value
 }
 
 // Get returns a value and whether it was present.
 func (m *MemStore) Get(key string) (string, bool) {
-	// TODO
-	return "", false
+	v, ok := m.items[key]
+	return v, ok
 }
 
 // CopyAll moves every pair from src into dst. It takes interfaces, so it works
 // with any Store - this is what "accept interfaces" means in practice.
 func CopyAll(dst Store, pairs map[string]string) {
-	// TODO
+	for k, v := range pairs {
+		dst.Put(k, v)
+	}
 }

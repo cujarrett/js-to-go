@@ -11,8 +11,12 @@ import (
 // SlowOp simulates work that takes delay to finish. It must stop early and
 // return ctx.Err() the moment ctx is done, rather than waiting delay out.
 func SlowOp(ctx context.Context, delay time.Duration) error {
-	// TODO: select on time.After(delay) and ctx.Done()
-	return nil
+	select {
+	case <-time.After(delay):
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
 }
 
 type requestIDKey struct{}
@@ -23,12 +27,11 @@ type requestIDKey struct{}
 // cancellation and request-scoped values travel through the same parameter
 // by convention, so nothing extra has to be threaded through every call.
 func WithRequestID(ctx context.Context, id string) context.Context {
-	// TODO
-	return ctx
+	return context.WithValue(ctx, requestIDKey{}, id)
 }
 
 // RequestID reads the id WithRequestID stored, if any.
 func RequestID(ctx context.Context) (string, bool) {
-	// TODO
-	return "", false
+	id, ok := ctx.Value(requestIDKey{}).(string)
+	return id, ok
 }

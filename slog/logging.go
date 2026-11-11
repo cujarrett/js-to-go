@@ -9,21 +9,19 @@ import (
 
 // New returns a logger that writes JSON lines to w.
 func New(w io.Writer) *slog.Logger {
-	// TODO
-	return nil
+	return slog.New(slog.NewJSONHandler(w, nil))
 }
 
 // LogRequest records one handled request as structured attributes, not a
 // formatted string - so "status" is a field a log pipeline can filter on,
 // not a substring inside a sentence.
 func LogRequest(logger *slog.Logger, method, path string, status int) {
-	// TODO
+	logger.Info("request", "method", method, "path", path, "status", status)
 }
 
 // WithRequestID returns a logger that stamps every future line with id,
 // without the caller passing it again. Node's pino calls the same idea
 // logger.child({ requestId }); slog calls it With.
 func WithRequestID(logger *slog.Logger, id string) *slog.Logger {
-	// TODO
-	return nil
+	return logger.With("request_id", id)
 }
